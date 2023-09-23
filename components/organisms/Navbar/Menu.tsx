@@ -29,9 +29,9 @@ export default function Menu() {
 
   return (
     <>
-      {navLink.map((link) => {
+      {navLink.map((link, i) => {
         const isActive = pathname === link.href;
-        return <li className="nav-item my-auto" aria-current="page">
+        return <li className="nav-item my-auto" aria-current="page" key={i}>
           <Link href={link.href} className={`nav-link ${isActive ? 'active' : ""}`}>
             {link.title}
           </Link>
