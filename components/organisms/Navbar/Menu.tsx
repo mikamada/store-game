@@ -25,11 +25,14 @@ const navLink = [
 ]
 
 export default function Menu() {
-  const pathname = usePathname();
+  let pathname = usePathname();
 
   return (
     <>
       {navLink.map((link, i) => {
+        if(pathname !== link.href) {
+          pathname = "/"
+        }
         const isActive = pathname === link.href;
         return <li className="nav-item my-auto" aria-current="page" key={i}>
           <Link href={link.href} className={`nav-link ${isActive ? 'active' : ""}`}>
