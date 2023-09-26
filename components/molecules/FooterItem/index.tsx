@@ -19,7 +19,7 @@ export default function FooterItem(props: Partial<FooterItemProps>) {
       <p className="text-lg fw-semibold color-palette-1 mb-12">{title}</p>
       <ul className="list-unstyled">
         {navLink?.map((item, i) => <li className="mb-6">
-          <Link href={`${item.href}`} className="text-lg color-palette-1 text-decoration-none" key={i}>{item.name}</Link>
+          <Link key={i} href={`${item.href}`} className="text-lg color-palette-1 text-decoration-none">{item.name}</Link>
         </li>)}
       </ul>
     </div>
