@@ -4,15 +4,16 @@ import { useRouter } from 'next/router';
 export interface GameItemProps {
   title: string;
   category: string;
-  thumbnail: "/assets/img/Thumbnail-1.png" | "/assets/img/Thumbnail-2.png" | "/assets/img/Thumbnail-3.png" | "/assets/img/Thumbnail-4.png" | "/assets/img/Thumbnail-5.png"
+  thumbnail: string;
+  id: string
 }
 
 export default function GameItem(props: GameItemProps) {
-  const { title, category, thumbnail } = props;
+  const { title, category, thumbnail, id } = props;
   const router = useRouter();
 
   return (
-    <div className="featured-game-card position-relative" onClick={() => router.push("/detail")}>
+    <div className="featured-game-card position-relative pointer" onClick={() => router.push(`/detail/${id}`)}>
       <div className="blur-sharp">
         <Image className='thumbnail' src={thumbnail} width={205} height={270} alt="thumbnail" />
       </div>
@@ -27,7 +28,6 @@ export default function GameItem(props: GameItemProps) {
           </div>
         </div>
       </div>
-
     </div>
   )
 }
