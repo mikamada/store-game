@@ -30,3 +30,8 @@ export interface NominalsTypes {
   coinName: string;
   price: number;
 }
+
+export interface LoginTypes {
+  email: String;
+  password: String;
+}
