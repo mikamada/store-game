@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import cx from "classnames"
+import Cookies from "js-cookie"
 import { useRouter } from 'next/router';
 import { setSignIn } from '../../../services/auth';
 import { ToastContainer, toast } from 'react-toastify';
@@ -30,6 +31,12 @@ export default function SignInForm() {
         toast.error(response.message);
       } else {
         toast.success("Login Success");
+        const { token } = response.data;
+        const tokenBase64 = btoa(token);
+        Cookies.set("token", tokenBase64, {
+          expires: 1,
+          path: "/",
+        });
         router.push("/");
       }
 
