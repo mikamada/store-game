@@ -37,14 +37,23 @@ export interface LoginTypes {
 }
 
 export interface UserTypes {
-	_id: String;
-	username: String;
-	email: String;
-	name: String;
-	avatar: String;
+	_id: string;
+	username: string;
+	email: string;
+	name: string;
+	avatar: string;
 }
 
 export interface JwtPayloadTypes {
 	player: UserTypes;
 	iat: number;
+}
+
+export interface CheckoutTypes {
+	voucher: string;
+	nominal: string;
+	payment: string;
+	bank: string;
+	name: string;
+	accountUser: string;
 }

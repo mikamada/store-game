@@ -1,9 +1,11 @@
-import React from 'react'
-import Link from 'next/link'
+import React, { useState } from 'react'
 import NominalItem from './NominalItem'
 import PaymentItem from './PaymentItem'
-import { PaymentTypes } from '../../../services/data-types'
+import { BanksTypes, PaymentTypes } from '../../../services/data-types'
 import { NominalsTypes } from '../../../services/data-types'
+import { toast } from 'react-toastify';
+import { isEqual } from 'lodash';
+import { useRouter } from 'next/router'
 
 interface TopUpFormProps {
   nominals: NominalsTypes[]
@@ -11,16 +13,62 @@ interface TopUpFormProps {
 }
 
 export default function TopUpForm(props: TopUpFormProps) {
+  const router = useRouter()
   const { nominals, payments } = props
-  console.log(payments)
+  const [verifytID, setVerifyID] = useState("");
+  const [bankAccountName, setBankAccountName] = useState("");
+  const [nominalItem, setNominalItem] = useState({});
+  const [paymentItem, setPaymentItem] = useState({});
+
+  const onNominalSelect = (data: NominalsTypes) => {
+    setNominalItem(data);
+
+  }
+
+  const onPaymentSelect = (payment: PaymentTypes, bank: BanksTypes) => {
+    const data = {
+      payment,
+      bank
+    }
+    setPaymentItem(data);
+  }
+
+  const onSubmit = () => {
+    if (verifytID === "" || bankAccountName === "" || isEqual(nominalItem, {}) || isEqual(paymentItem, {})) {
+      toast.error("Please fill in all the fields");
+    } else {
+      const data = {
+        verifytID,
+        bankAccountName,
+        nominalItem,
+        paymentItem
+      }
+      localStorage.setItem("data-topup", JSON.stringify(data));
+      router.push("/checkout");
+    }
+  }
+
   return (
+
     <form action="./checkout.html" method="POST">
       <div className="pt-md-50 pt-30">
         <div className="">
-          <label htmlFor="ID" className="form-label text-lg fw-medium color-palette-1 mb-10">Verify
-            ID</label>
-          <input type="text" className="form-control rounded-pill text-lg" id="ID" name="ID"
-            aria-describedby="verifyID" placeholder="Enter your ID" />
+          <label
+            htmlFor="ID"
+            className="form-label text-lg fw-medium color-palette-1 mb-10"
+          >
+            Verify ID
+          </label>
+          <input
+            type="text"
+            className="form-control rounded-pill text-lg"
+            id="ID"
+            name="ID"
+            value={verifytID}
+            onChange={(e) => setVerifyID(e.target.value)}
+            aria-describedby="verifyID"
+            placeholder="Enter your ID"
+          />
         </div>
       </div>
       <div className="pt-md-50 pb-md-50 pt-30 pb-20">
@@ -33,6 +81,7 @@ export default function TopUpForm(props: TopUpFormProps) {
               coinName={nominal.coinName}
               coinQuantity={nominal.coinQuantity}
               price={nominal.price}
+              onChange={() => onNominalSelect(nominal)}
             />
           ))}
           <div className='col-lg-4 col-sm-6' />
@@ -49,6 +98,7 @@ export default function TopUpForm(props: TopUpFormProps) {
                   bankId={bank._id}
                   nameBank={bank.nameBank}
                   type={payment.type}
+                  onChange={() => onPaymentSelect(payment, bank)}
                 />
               ))
             ))}
@@ -57,17 +107,33 @@ export default function TopUpForm(props: TopUpFormProps) {
         </fieldset>
       </div>
       <div className="pb-50">
-        <label htmlFor="bankAccount" className="form-label text-lg fw-medium color-palette-1 mb-10">Bank
-          Account
-          Name</label>
-        <input type="text" className="form-control rounded-pill text-lg" id="bankAccount"
-          name="bankAccount" aria-describedby="bankAccount"
-          placeholder="Enter your Bank Account Name" />
+        <label
+          htmlFor="bankAccount"
+          className="form-label text-lg fw-medium color-palette-1 mb-10"
+        >
+          Bank Account Name
+        </label>
+        <input
+          type="text"
+          className="form-control rounded-pill text-lg"
+          id="bankAccount"
+          name="bankAccount"
+          aria-describedby="bankAccount"
+          placeholder="Enter your Bank Account Name"
+          value={bankAccountName}
+          onChange={(e) => setBankAccountName(e.target.value)}
+        />
       </div>
       <div className="d-sm-block d-flex flex-column w-100">
-        <Link href="/checkout"
-          className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg">Continue</Link>
+        <button
+          type="button"
+          onClick={onSubmit}
+          className="btn btn-submit rounded-pill fw-medium text-white border-0 text-lg"
+        >
+          Continue
+        </button>
       </div>
     </form>
+
   )
 }
