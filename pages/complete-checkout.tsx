@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 export default function CompleteCheckout() {
@@ -129,12 +130,18 @@ export default function CompleteCheckout() {
               WhatsApp</p>
           </div>
           <div className="button-group d-flex flex-column mx-auto">
-            <a className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16"
-              href="../member/overview.html" role="button">My
-              Dashboard</a>
-            <a className="btn btn-whatsapp fw-medium text-lg color-palette-1 rounded-pill" href="#"
-              role="button">WhatsApp
-              ke Admin</a>
+            <Link
+              className="btn btn-dashboard fw-medium text-lg text-white rounded-pill mb-16"
+              href="/member"
+            >
+              My Dashboard
+            </Link>
+            <Link
+              className="btn btn-whatsapp fw-medium text-lg color-palette-1 rounded-pill"
+              href="https://wa.me/6281380973918?text=Saya%20sudah%20melakukan%20pembayaran"
+            >
+              WhatsApp ke Admin
+            </Link>
           </div>
         </div>
       </section>
