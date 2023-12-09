@@ -4,8 +4,7 @@ import cx from "classnames"
 import Cookies from "js-cookie"
 import { useRouter } from 'next/router';
 import { setSignIn } from '../../../services/auth';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 export default function SignInForm() {
   const router = useRouter();
@@ -92,7 +91,6 @@ export default function SignInForm() {
           Sign Up
         </Link>
       </div>
-      <ToastContainer />
     </>
   )
 }

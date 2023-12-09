@@ -6,9 +6,9 @@ import { formatCurrency } from '../../../utils/helper'
 interface TableRowProps {
   title: string;
   category: string;
-  item: number;
+  item: string;
   price: number;
-  status: "Success" | "Pending" | "Failed";
+  status: string;
   image: string
 }
 
@@ -17,16 +17,16 @@ export default function TableRow(props: TableRowProps) {
 
   const statusClass = cx({
     'float-start icon-status': true,
-    'pending': status === 'Pending',
-    'success': status === 'Success',
-    'failed': status === 'Failed',
+    'pending': status === 'pending',
+    'success': status === 'success',
+    'failed': status === 'failed',
   })
 
 
   return (
     <tr className="align-middle">
       <th scope="row">
-        <Image className="float-start me-3 mb-lg-0 mb-3" src={`/assets/img/${image}.png`}
+        <Image className="float-start me-3 mb-lg-0 mb-3" src={image}
           width={80} height={60} alt="" />
         <div className="game-title-header">
           <p className="game-title fw-medium text-start color-palette-1 m-0">{title}</p>
@@ -34,7 +34,7 @@ export default function TableRow(props: TableRowProps) {
         </div>
       </th>
       <td>
-        <p className="fw-medium color-palette-1 m-0">{item} Gold</p>
+        <p className="fw-medium color-palette-1 m-0">{item}</p>
       </td>
       <td>
         <p className="fw-medium text-start color-palette-1 m-0">{formatCurrency(price)}</p>
