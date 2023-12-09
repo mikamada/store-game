@@ -30,10 +30,11 @@ export const callAPI = async ({ url, method, data, token }: callAPIProps) => {
 		return res;
 	}
 
+	const { length } = Object.keys(response.data);
 	const res = {
 		error: false,
 		message: response.data.message,
-		data: response.data.data,
+		data: length > 1 ? response.data : response.data.data,
 	};
 
 	return res;
