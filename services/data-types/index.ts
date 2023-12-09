@@ -57,3 +57,26 @@ export interface CheckoutTypes {
 	name: string;
 	accountUser: string;
 }
+
+export interface CountTypes {
+	_id: string;
+	value: number;
+	name: string;
+}
+
+export interface HistoryVoucherTopupTypes {
+	_id: string;
+	gameName: string;
+	category: string;
+	thumbnail: string;
+	coinName: string;
+	coinQuantity: number;
+	price: number;
+}
+
+export interface DataTransactionTypes {
+	historyVoucherTopup: HistoryVoucherTopupTypes;
+	status: string;
+	_id: string;
+	value: number;
+}
