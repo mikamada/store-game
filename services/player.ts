@@ -30,3 +30,12 @@ export const setCheckout = async (data: CheckoutTypes) => {
 		token: true,
 	});
 };
+
+export const getMemberOverview = async () => {
+	const url = `${rootApi}/players/dashboard`;
+	return callAPI({
+		url,
+		method: "GET",
+		token: true,
+	});
+};
