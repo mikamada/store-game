@@ -1,8 +1,31 @@
-import React from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import Category from './Category'
 import TableRow from './TableRow'
+import { getMemberOverview } from '../../../services/player';
+import { toast } from 'react-toastify';
+import { CountTypes, DataTransactionTypes } from '../../../services/data-types';
 
 export default function OverviewContent() {
+  const [count, setCount] = useState([]);
+  const [data, setData] = useState([]);
+  const IMG = process.env.NEXT_PUBLIC_IMAGE
+
+  const getOverview = useCallback(async () => {
+    const response = await getMemberOverview();
+    if (response.error) {
+      toast.error(response.message);
+    } else {
+      console.log(response.data);
+      setCount(response.data.count);
+      setData(response.data.data);
+    }
+  }, [])
+
+
+  useEffect(() => {
+    getOverview()
+  }, [])
+
   return (
     <main className="main-wrapper">
       <div className="ps-lg-0">
@@ -11,10 +34,16 @@ export default function OverviewContent() {
           <p className="text-lg fw-medium color-palette-1 mb-14">Top Up Categories</p>
           <div className="main-content">
             <div className="row">
-              <Category icon='ic-desktop' nominal={18000500}>Game <br /> Desktop</Category>
-              <Category icon='ic-mobile' nominal={8455000}>Game <br /> Mobile</Category>
-              <Category icon='ic-other' nominal={5000000}>Other <br /> Categories</Category>
-
+              {count.map((item: CountTypes) => {
+                return (
+                  <Category
+                    key={item._id}
+                    icon={item.name}
+                    nominal={item.value}>
+                    {item.name}
+                  </Category>
+                )
+              })}
             </div>
           </div>
         </div>
@@ -31,10 +60,19 @@ export default function OverviewContent() {
                 </tr>
               </thead>
               <tbody>
-                <TableRow title='Mobile Legends: The New Battle 2021' category='Mobile' image='overview-1' item={200} price={290000} status='Pending' />
-                <TableRow title='Call of Duty:Modern' category='Desktop' image='overview-2' item={550} price={740000} status='Success' />
-                <TableRow title='Clash of Clans' category='Mobile' image='overview-3' item={10} price={120000} status='Failed' />
-                <TableRow title='The Royal Game' category='Mobile' image='overview-4' item={225} price={200000} status='Pending' />
+                {data.map((item: DataTransactionTypes) => {
+                  return (
+                    <TableRow
+                      key={item._id}
+                      title={item.historyVoucherTopup.gameName}
+                      category={item.historyVoucherTopup.category}
+                      image={`${IMG}/${item.historyVoucherTopup.thumbnail}`}
+                      item={`${item.historyVoucherTopup.coinQuantity} ${item.historyVoucherTopup.coinName}`}
+                      price={item.value}
+                      status={item.status}
+                    />
+                  )
+                })}
               </tbody>
             </table>
           </div>
